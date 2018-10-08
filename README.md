@@ -10,7 +10,7 @@ This starts window numbering at 1 instead of 0.
 
 ## Usage
 ```
-$ mv example-config.sh config.sh
+$ cp example-config.sh config.sh
 $ ./tmux-template example1
 ```
 Add your templates to `config.sh`.
