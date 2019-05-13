@@ -40,7 +40,11 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
       # This is the first window -> create new session
       tmux new-session -d -s "$SESSION_NAME" -n "$window_name" -c "$window_dir"
       tmux set-option -t "$SESSION_NAME" base-index 1
-      tmux set-option -t "$SESSION_NAME" pane-base-index 0
+      base_index=$(tmux list-windows -t "$SESSION_NAME" | cut -d: -f1)
+      if [ "$base_index" -ne 1 ]; then
+        tmux move-window -s "$SESSION_NAME:$base_index" -t "$SESSION_NAME:1"
+      fi
+      pane_base_index=$(tmux list-panes -t "$SESSION_NAME:1" | cut -d: -f1)
     else
       # A session has already been created -> create new window
       tmux new-window -t "$SESSION_NAME:$window_number" -n "$window_name" -c "$window_dir"
@@ -48,7 +52,7 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
 
     if [ "$num_panes" -eq 3 ]; then
       # Make a horizontal split followed by a vertical split in the right pane
-      tmux split-window -t "$SESSION_NAME:$window_number" -h -p 0 -c "$window_dir"
+      tmux split-window -t "$SESSION_NAME:$window_number" -h -p "$pane_base_index" -c "$window_dir"
       tmux split-window -t "$SESSION_NAME:$window_number" -v -c "$window_dir"
     elif [ "$num_panes" -eq 2 ]; then
       # Make a 50/50 horizontal split
@@ -59,14 +63,14 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
     for i in "${!pane_commands[@]}"; do
       pane_command="${pane_commands[$i]}"
       if [ ! -z "$pane_command" ]; then
-        tmux send-keys -t "$SESSION_NAME:$window_number.$i" "$pane_command" C-m
+        tmux send-keys -t "$SESSION_NAME:$window_number.$((pane_base_index + i))" "$pane_command" C-m
       fi
     done
   done
 
   # Select default window and pane
   tmux select-window -t "$SESSION_NAME:$DEFAULT_WINDOW"
-  tmux select-pane -t "$SESSION_NAME:$DEFAULT_WINDOW.$DEFAULT_PANE"
+  tmux select-pane -t "$SESSION_NAME:$DEFAULT_WINDOW.$((pane_base_index + DEFAULT_PANE))"
 
   tmux attach -t "$SESSION_NAME"
 }
