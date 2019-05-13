@@ -66,6 +66,8 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
         tmux send-keys -t "$SESSION_NAME:$window_number.$((pane_base_index + i))" "$pane_command" C-m
       fi
     done
+    tmux select-window -t "$SESSION_NAME:$window_number"
+    tmux select-pane -t "$SESSION_NAME:$window_number.$pane_base_index"
   done
 
   # Select default window and pane
