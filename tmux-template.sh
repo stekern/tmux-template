@@ -48,11 +48,11 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
 
     if [ "$num_panes" -eq 3 ]; then
       # Make a horizontal split followed by a vertical split in the right pane
-      tmux split-window -t "$SESSION_NAME:$window_number" -h -p 0 -c "#{pane_current_path}"
-      tmux split-window -t "$SESSION_NAME:$window_number" -v -c "#{pane_current_path}"
+      tmux split-window -t "$SESSION_NAME:$window_number" -h -p 0 -c "$window_dir"
+      tmux split-window -t "$SESSION_NAME:$window_number" -v -c "$window_dir"
     elif [ "$num_panes" -eq 2 ]; then
       # Make a 50/50 horizontal split
-      tmux split-window -t "$SESSION_NAME:$window_number" -h -c "#{pane_current_path}"
+      tmux split-window -t "$SESSION_NAME:$window_number" -h -c "$window_dir"
     fi
 
     # Run given commands in their respective panes
