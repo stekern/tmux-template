@@ -28,5 +28,28 @@ There are more examples in the supplied config file.
 <img src="https://cdn.rawgit.com/stekern/tmux-template/master/demo.svg">
 
 ## Limitations
-- You can only have 1, 2 or 3 three panes in a window
-- You have to use full paths when specifying directories. Tilde expansion does not work
+- Window templates are hardcoded depending on the number of panes:
+   - 1 pane (_fullscreen_):
+    ```
+     |-----------|
+     |           |
+     |     #1    |
+     |           |
+     |-----------|
+    ```
+   - 2 panes (_50/50 vertical split_):
+    ```
+     |-----------|
+     |     |     |
+     | #1  | #2  |
+     |     |     |
+     |-----------|
+     ```
+   - 3 panes (_70/30 vertical split, 50/50 horizontal split_):
+    ```
+     |------------|
+     |       | #2 |
+     |  #1   |----|
+     |       | #3 |
+     |------------|
+    ```
