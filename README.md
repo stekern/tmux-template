@@ -1,12 +1,5 @@
 # tmux-template
-A bash script for creating and loading user-defined templates.
-
-## Requirements
-Add the following line to your `.tmux.conf`:
-```
-set -g base-index 1
-```
-This starts window numbering at 1 instead of 0.
+A bash script for creating and loading user-defined tmux templates.
 
 ## Usage
 ```
@@ -37,5 +30,3 @@ There are more examples in the supplied config file.
 ## Limitations
 - You can only have 1, 2 or 3 three panes in a window
 - You have to use full paths when specifying directories. Tilde expansion does not work
-- The first window has to have window number 1
-- Assumes tmux window ordering starts at 1 instead of 0
