@@ -33,6 +33,12 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
 
     window_name="${window[0]}"
     window_dir="${window[1]}"
+
+    # Replace tilde with $HOME
+    if [[ "$window_dir" =~ ^~ ]]; then
+      window_dir="$HOME$(echo "$window_dir" | cut -c 2-)"
+    fi
+
     pane_commands=("${window[@]:2}")
     num_panes="${#pane_commands[@]}"
 
