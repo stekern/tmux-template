@@ -39,6 +39,8 @@ tmux attach -t "$SESSION_NAME" > /dev/null 2>&1 ||
     if [ "$window_number" -eq 1 ]; then
       # This is the first window -> create new session
       tmux new-session -d -s "$SESSION_NAME" -n "$window_name" -c "$window_dir"
+      tmux set-option -t "$SESSION_NAME" base-index 1
+      tmux set-option -t "$SESSION_NAME" pane-base-index 0
     else
       # A session has already been created -> create new window
       tmux new-window -t "$SESSION_NAME:$window_number" -n "$window_name" -c "$window_dir"
